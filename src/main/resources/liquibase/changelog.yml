@@ -1,0 +1,90 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: spatium
+      changes:
+        - createTable:
+            tableName: books
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  constraints:
+                    primaryKey:  true
+                    nullable:  false
+  - changeSet:
+      id: 2
+      author: spatium
+      changes:
+        - addColumn:
+            tableName: books
+            columns:
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type
+                  type: integer
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 3
+      author: spatium
+      changes:
+        - createTable:
+            tableName: chapter
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: chapter_pk
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 4
+      author: spatium
+      changes:
+        - insert:
+            tableName: chapter
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: title
+                  value: Манга
+        - insert:
+            tableName: chapter
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: title
+                  value: Комиксы
+  - changeSet:
+      id: 5
+      author: spatium
+      changes:
+        - addColumn:
+            tableName: books
+            columns:
+              - column:
+                  name: chapter_id
+                  type: integer
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: books
+            baseColumnNames: chapter_id
+            referencedTableName: chapter
+            referencedColumnNames: id
+            constraintName: books_chapter_fk
